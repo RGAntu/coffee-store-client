@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <h2>Welcome to Career Store</h2>
+      <h2>Welcome to Coffee Store</h2>
     </>
   )
 }

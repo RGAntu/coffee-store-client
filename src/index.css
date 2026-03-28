@@ -1,1 +1,28 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+
+a.active{
+    color: #99cfa8;
+}
+
+a.pending{
+    color:blue;
+}
+
+.primary-color{
+    color:#99cfa8;
+}
+.primary-bg-color{
+    background-color:#99cfa8;
+}
+.secondary-color{
+color: #7fc3ad;
+}
+.secondary-bg-color{
+background-color: #7fc3ad;
+}
+
+.text-color{
+    color: #060703;
+}
