@@ -1,15 +1,35 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 const AddCoffee = () => {
+  const handleAddCoffee = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const coffeeData = Object.fromEntries(formData.entries());
+    console.log(coffeeData);
 
-    const handleAddCoffee = e => { 
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const coffeeData = Object.fromEntries(formData.entries());
-        console.log(coffeeData)
-    }
-
+    fetch("http://localhost:3000/coffees", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(coffeeData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your Data has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
 
   return (
     <div>
@@ -41,6 +61,15 @@ const AddCoffee = () => {
               name="chef"
               className="input w-full"
               placeholder="Enter Coffee Chef"
+            />
+          </fieldset>
+          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
+            <label className="label">Price</label>
+            <input
+              type="text"
+              name="price"
+              className="input w-full"
+              placeholder="Coffee Price"
             />
           </fieldset>
           <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
@@ -88,13 +117,14 @@ const AddCoffee = () => {
               placeholder="Enter Photo URL"
             />
           </fieldset>
-
-          
-
         </div>
-          <div className="p-6">
-            <input type="submit" value="Add Coffee" className="btn primary-bg-color text-color w-full text-lg font-semibold" />
-          </div>
+        <div className="p-6">
+          <input
+            type="submit"
+            value="Add Coffee"
+            className="btn primary-bg-color text-color w-full text-lg font-semibold"
+          />
+        </div>
       </form>
     </div>
   );
