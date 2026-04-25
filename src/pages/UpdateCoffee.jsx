@@ -1,16 +1,40 @@
-import React from 'react';
-import { useLoaderData } from 'react-router';
+import React from "react";
+import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const UpdateCoffee = () => {
-    const updateCoffee = useLoaderData();
-    const {_id, name,chef, price, supplier, taste, category, details, photo} = updateCoffee;
-    const handleUpdateCoffee = e => {
-        e.preventDefault();
-        console.log("coffee updated")
-        fetch(``)
-    }
-    return (
-        <div>
+  const updateCoffee = useLoaderData();
+  const { _id, name, chef, price, supplier, taste, category, details, photo } =
+    updateCoffee;
+  const handleUpdateCoffee = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const updatedCoffee = Object.fromEntries(formData.entries());
+
+    fetch(`http://localhost:3000/coffees/${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedCoffee),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Coffee Updated Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
+  return (
+    <div>
       <div className="text-center my-8">
         <h2 className="text-4xl font-semibold">Update Coffee</h2>
         <p className="text-md w-4/5 mx-auto mt-5">
@@ -107,13 +131,13 @@ const UpdateCoffee = () => {
         <div className="p-6">
           <input
             type="submit"
-            value="Add Coffee"
+            value="Update Coffee"
             className="btn primary-bg-color text-color w-full text-lg font-semibold"
           />
         </div>
       </form>
     </div>
-    );
+  );
 };
 
 export default UpdateCoffee;
